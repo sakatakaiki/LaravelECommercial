@@ -4,10 +4,10 @@
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">
-            <h3 class="page-title"> Products List </h3>
+            <h3 class="page-title"> Users List </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.products.index') }}">Products</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">Users</a></li>
                     <li class="breadcrumb-item active" aria-current="page">All</li>
                 </ol>
             </nav>
@@ -20,39 +20,34 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Thumbnail</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Category</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $index => $product)
+                                @foreach ($users as $index => $user)
                                     <tr>
                                         <th scope="row">{{ $index + 1 }}</th>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->role }}</td>
                                         <td>
-                                            <img src="{{ asset($product->thumbnail) }}" width="64" height="64" alt="alt" />
-                                        </td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>${{ number_format($product->price, 2) }}</td>
-                                        <td>{{ $product->quantity }}</td>
-                                        <td>{{ $product->category->name ?? 'N/A' }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.products.edit', $product->id) }}"
-                                                class="btn btn-warning">Edit</a>
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                class="btn btn-success">Edit</a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure?');">
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this user?');">
+                                                    Delete
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
+
                                 @endforeach
                             </tbody>
                         </table>

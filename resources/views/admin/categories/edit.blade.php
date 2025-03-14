@@ -29,7 +29,7 @@
                             method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="categoryId" value="{{ $category->id }}" />
+                            <input type="hidden" name="category_id" value="{{ $category->id }}" />
                             <div class="form-group">
                                 <label for="exampleInputName1">Category Name</label>
                                 <input name="name" value="{{ old('name', $category->name) }}" type="text" class="form-control"

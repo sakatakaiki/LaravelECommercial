@@ -66,10 +66,10 @@
             <div class="collapse" id="categories">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="IndexCategoryServlet"> All </a>
+                        <a class="nav-link" href="{{ route('admin.categories.index') }}"> All </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CreateCategoryServlet"> Add </a>
+                        <a class="nav-link" href="{{ route('admin.categories.create') }}"> Add </a>
                     </li>
                 </ul>
             </div>

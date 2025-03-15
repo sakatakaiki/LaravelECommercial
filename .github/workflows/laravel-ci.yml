@@ -45,11 +45,18 @@ jobs:
       - name: 🔄 Wait for MySQL to be ready
         run: sleep 15
 
-      - name: 🛠 Import database
-        run: mysql -h 127.0.0.1 -u root shop < database/shop.sql
+      - name: 🛠 Import database (sử dụng file có sẵn)
+        run: |
+          mysql -h 127.0.0.1 -u root -e "CREATE DATABASE IF NOT EXISTS shop;"
+          mysql -h 127.0.0.1 -u root shop < database/shop.sql
+          mysql -h 127.0.0.1 -u root -e "USE shop; SHOW TABLES;"
 
-      - name: 🛠 Run migrations (if needed)
-        run: php artisan migrate --force
+      - name: 🛠 Kiểm tra bảng products có tồn tại không
+        run: mysql -h 127.0.0.1 -u root -e "USE shop; SELECT * FROM products LIMIT 1;"
+
+      # ❌ Bỏ migration vì database đã có sẵn
+      # - name: 🛠 Run migrations (if needed)
+      #   run: php artisan migrate --force
 
       - name: 🚀 Run tests
         run: php artisan test

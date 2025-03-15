@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Belle Products List')
+@section('title', 'Belle Users List')
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">

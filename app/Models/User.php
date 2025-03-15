@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory;
 
+    public $timestamps = false; 
     protected $fillable = ['email', 'password', 'role'];
 
     protected $hidden = [];

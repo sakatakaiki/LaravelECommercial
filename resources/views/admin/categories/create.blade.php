@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Belle Categories List')
+@section('title', 'Belle Categories Create')
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">

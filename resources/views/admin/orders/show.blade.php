@@ -13,9 +13,40 @@
             </nav>
         </div>
         <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-primary bg-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="mdi mdi-account-circle"></i> User</h5>
+                        <p class="card-text">{{ $order->user->email ?? 'Guest' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-warning bg-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="mdi mdi-clipboard-check"></i> Status</h5>
+                        <span class="badge {{ $order->status == 'finished' ? 'badge-success' : 'badge-danger' }}">
+                            {{ ucfirst($order->status) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-info bg-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="mdi mdi-calendar-clock"></i> Created At</h5>
+                        <p class="card-text">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y, H:i') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>

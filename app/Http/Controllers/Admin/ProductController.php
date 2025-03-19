@@ -11,9 +11,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->paginate(10);
         return view('admin.products.index', compact('products'));
     }
+    
 
     public function create()
     {

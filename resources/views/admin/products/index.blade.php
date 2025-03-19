@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach ($products as $index => $product)
                                     <tr>
-                                        <th scope="row">{{ $index + 1 }}</th>
+                                        <th scope="row">{{ ($products->currentPage() - 1) * $products->perPage() + $index + 1 }}</th>
                                         <td>
                                             <img src="{{ asset($product->thumbnail) }}" width="64" height="64" alt="alt" />
                                         </td>
@@ -56,6 +56,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $products->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>

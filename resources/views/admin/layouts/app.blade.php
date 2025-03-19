@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="{{ asset('admin/vendors/ti-icons/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('admin/vendors/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+    
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -62,6 +64,7 @@
     <script src="{{ asset('admin/js/todolist.js') }}"></script>
     <script src="{{ asset('admin/js/jquery.cookie.js') }}"></script>
     
+
     <!-- endinject -->
     <!-- Custom js for this page -->
     <!-- End custom js for this page -->

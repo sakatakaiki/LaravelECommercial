@@ -30,10 +30,10 @@
             <div class="collapse" id="users">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="IndexUserServlet"> All </a>
+                        <a class="nav-link" href="{{ route('admin.users.index') }}"> All </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CreateUserServlet"> Add </a>
+                        <a class="nav-link" href="{{ route('admin.users.create') }}"> Add </a>
                     </li>
                 </ul>
             </div>
@@ -83,7 +83,7 @@
             <div class="collapse" id="orders">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="IndexOrderServlet"> All </a>
+                        <a class="nav-link" href="{{ route('admin.orders.index') }}"> All </a>
                     </li>
             </div>
         </li>

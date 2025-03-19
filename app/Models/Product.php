@@ -22,7 +22,8 @@ class Product extends Model
     ]; // Danh sách cột có thể insert/update
 
     const UPDATED_AT = null;
-    public $timestamps = true;
+    public $timestamps = false;
+    protected $dates = ['created_at'];
 
 
     public static function getTopViewedProducts($limit = 6)

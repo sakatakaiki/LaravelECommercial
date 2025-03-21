@@ -76,10 +76,10 @@
                                                 title="{{ $product->name }}">
                                         </a>
                                         <!-- Start product button -->
-                                        <form class="variants add" action="#" onclick="window.location.href='cart.html'"
-                                            method="post">
-                                            <button class="btn btn-addto-cart" type="button" tabindex="0">Add To
-                                                Cart</button>
+                                        <form class="variants add" action="{{ route('cart.add') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button class="btn btn-addto-cart" type="submit" tabindex="0">Add To Cart</button>
                                         </form>
                                         <div class="button-set">
                                             <a href="javascript:void(0)" title="Quick View" class="quick-view-popup quick-view"
@@ -158,24 +158,20 @@
                                     <!--start product image -->
                                     <a href="{{ route('products', $product->id) }}" class="grid-view-item__link">
                                         <!-- image -->
-                                        <img class="primary blur-up lazyload"
-                                            data-src="{{ asset($product->thumbnail) }}"
-                                            src="{{ asset($product->thumbnail) }}" alt="{{ $product->name }}"
-                                            title="product" />
+                                        <img class="primary blur-up lazyload" data-src="{{ asset($product->thumbnail) }}"
+                                            src="{{ asset($product->thumbnail) }}" alt="{{ $product->name }}" title="product" />
                                         <!-- End image -->
                                         <!-- Hover image -->
-                                        <img class="hover blur-up lazyload"
-                                            data-src="{{ asset($product->thumbnail) }}"
-                                            src="{{ asset($product->thumbnail) }}" alt="{{ $product->name }}"
-                                            title="product" />
+                                        <img class="hover blur-up lazyload" data-src="{{ asset($product->thumbnail) }}"
+                                            src="{{ asset($product->thumbnail) }}" alt="{{ $product->name }}" title="product" />
                                         <!-- End hover image -->
                                     </a>
                                     <!-- end product image -->
                                     <!-- product button -->
-                                    <form class="variants add" action="#" onclick="window.location.href='cart.html'"
-                                        method="post">
-                                        <button class="btn btn-addto-cart" type="button" tabindex="0">Add To
-                                            Cart</button>
+                                    <form class="variants add" action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <button class="btn btn-addto-cart" type="submit" tabindex="0">Add To Cart</button>
                                     </form>
                                     <div class="button-set">
                                         <a href="javascript:void(0)" title="Quick View" class="quick-view-popup quick-view"

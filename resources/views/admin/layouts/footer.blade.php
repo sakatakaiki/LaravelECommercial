@@ -1,14 +1,6 @@
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded-top p-4">
-        <div class="row">
-            <div class="col-12 col-sm-6 text-center text-sm-start">
-                &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+<footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright Â© 2023 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
             </div>
-            <div class="col-12 col-sm-6 text-center text-sm-end">
-                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                </br>
-                Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-            </div>
-        </div>
-    </div>
-</div>
+          </footer>

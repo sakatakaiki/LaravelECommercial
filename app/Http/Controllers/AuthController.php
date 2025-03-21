@@ -20,11 +20,16 @@ class AuthController extends Controller
 
         if ($user && $request->password === $user->password) {
             Auth::login($user);
-            return redirect()->route('home');
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.products.index'); // Chuyển đến trang quản lý sản phẩm
+            }
+            return redirect()->route('home'); // Chuyển đến trang home nếu không phải admin
         }
 
         return back()->with('error', 'Invalid credentials');
     }
+
 
 
     public function showRegisterForm()
@@ -41,7 +46,7 @@ class AuthController extends Controller
 
         User::create([
             'email' => $request->email,
-            'password' => $request->password,  
+            'password' => $request->password,
             'role' => 'user',
         ]);
 

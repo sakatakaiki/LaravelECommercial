@@ -97,9 +97,9 @@
                             <!--End Product Feature-->
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                            <form action="" method="post" class="single-pro-details">
+                            <form action="{{ route('cart.add') }}" method="post" class="single-pro-details">
                                 @csrf
-                                <input type="hidden" name="price" value="{{ $product->price }}" />
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="product-single__meta">
                                     <h1 class="product-single__title">{{ $product->name }}</h1>
                                     <div class="product-nav clearfix">

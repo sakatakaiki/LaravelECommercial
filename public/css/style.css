@@ -105,6 +105,8 @@ ol, ul { padding:0; margin:0; }
 .list-items { margin-left:15px; }
 .hide { display:none !important; }
 
+
+
 /*======================================================================
   3. Typography
 ========================================================================*/
@@ -278,6 +280,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder { opacity:1; -ms-fil
 #header-cart .total .product-price { float:right; font-size:16px; }
 #header-cart .total label { float:left; line-height:24px; text-transform:uppercase; margin:0; }
 #header-cart .total .total-in .label { text-transform:uppercase; }
+
 
 .stickyNav .site-header__search { display:none; }
 .site-header__search { float:right; }
@@ -703,12 +706,52 @@ a.quick-view { margin-bottom:5px !important; }
 .infinitpagin { clear:both; padding:15px 0 30px; text-align:center; }
 .loadMore { color:#fff !important; }
 
-.pagination { width:100%; text-align:center; list-style:none; font-size:1.15385em; }
-.pagination ul { display:block; margin:0 auto; }
-.pagination li { display:inline-block; }
-.pagination li.active a { border:2px solid #636871; color:#555; }
-.pagination li a { font-size:12px; color:#a2a2a2; height:30px; width:30px; line-height:28px; display:inline-block; border:2px solid #e8e9eb; vertical-align:middle; }
-.pagination li a i { line-height:28px; vertical-align:middle; }
+.pagination {
+  width: 100%;
+  text-align: center;
+  list-style: none;
+  font-size: 1.15385em;
+}
+
+.pagination ul {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 2px;
+}
+
+.pagination li a {
+  font-size: 12px;
+  color: #a2a2a2;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e8e9eb;
+  text-decoration: none;
+}
+
+.pagination li.active a { 
+  border: 2px solid #636871; 
+  color: #555; 
+  background-color: #007bff; 
+  height: 30px; 
+  width: 30px; 
+  line-height: 28px; 
+  text-align: center;
+}
+.pagination li a, 
+.pagination li.active a {
+    box-sizing: border-box;
+}
+
+
 
 /* Countdown Timer On listing */
 .grid-products .item:hover .saleTime { display:none }

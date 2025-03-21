@@ -886,6 +886,15 @@
 		});
 	}
 	qnt_incre();
+
+	document.querySelectorAll(".cart__qty-input").forEach(input => {
+		input.addEventListener("change", function() {
+			this.closest("form").submit();
+		});
+	});
+	
+	
+	
 	
 	/*----------------------------------
 	  27. Visitor Fake Message

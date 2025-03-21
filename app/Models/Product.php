@@ -31,6 +31,11 @@ class Product extends Model
         return self::orderByDesc('view')->take($limit)->get();
     }
 
+    public static function getLatestProducts($limit = 4)
+    {
+        return self::orderByDesc('created_at')->take($limit)->get();
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');

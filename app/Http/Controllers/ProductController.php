@@ -9,12 +9,17 @@ class ProductController extends Controller
     public function home()
     {
         $topProducts = Product::getTopViewedProducts();
-        return view('home', compact('topProducts'));
+        $latestProducts = Product::getLatestProducts(8);
+        return view('home', compact('topProducts', 'latestProducts'));
     }
 
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $id)
+            ->take(6)
+            ->get();
+        return view('products', compact('product', 'relatedProducts'));
     }
 }

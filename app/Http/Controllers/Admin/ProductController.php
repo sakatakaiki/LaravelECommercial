@@ -6,27 +6,42 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->paginate(10);
-        return view('admin.products.index', compact('products'));
+        try {
+            $products = Product::with('category')->paginate(10);
+            return view('admin.products.index', compact('products'));
+        } catch (\Exception $e) {
+            Log::error('Error loading product list: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load product list.');
+        }
     }
-    
 
     public function create()
     {
-        $categories = Category::all();
-        return view('admin.products.create', compact('categories'));
+        try {
+            $categories = Category::all();
+            return view('admin.products.create', compact('categories'));
+        } catch (\Exception $e) {
+            Log::error('Error loading create product page: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load product creation form.');
+        }
     }
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
-        $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        try {
+            $product = Product::findOrFail($id);
+            $categories = Category::all();
+            return view('admin.products.edit', compact('product', 'categories'));
+        } catch (\Exception $e) {
+            Log::error('Error loading edit product page: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load product edit form.');
+        }
     }
 
     public function update(Request $request, $id)
@@ -34,37 +49,33 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|string',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file ảnh
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id'
         ]);
 
-        $product = Product::findOrFail($id);
+        try {
+            $product = Product::findOrFail($id);
 
-        // Xử lý upload ảnh nếu có
-        if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-            $fileName = $file->getClientOriginalName(); // Giữ nguyên tên gốc của file
+            if ($request->hasFile('thumbnail')) {
+                $file = $request->file('thumbnail');
+                $fileName = $file->getClientOriginalName();
+                $filePath = $file->storeAs('images/product-images', $fileName, 'public');
+                $product->thumbnail = ltrim($filePath, '/');
+            }
 
-            // Lưu file vào storage giữ nguyên tên
-            $filePath = $file->storeAs('images/product-images', $fileName, 'public');
+            $product->update($request->except(['thumbnail']) + ['thumbnail' => $product->thumbnail]);
 
-            // Loại bỏ dấu '/' dư thừa trước khi lưu vào CSDL
-            $product->thumbnail = ltrim($filePath, '/');
+            return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error updating product: ' . $e->getMessage());
+            return back()->with('error', 'Failed to update product.');
         }
-
-
-
-        // Cập nhật thông tin sản phẩm
-        $product->update($request->except(['thumbnail']) + ['thumbnail' => $product->thumbnail]);
-
-        return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được cập nhật thành công.');
     }
 
     public function store(Request $request)
     {
-        // Kiểm tra dữ liệu đầu vào
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|string',
@@ -74,30 +85,33 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id'
         ]);
 
-        // Kiểm tra nếu có file ảnh
-        if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-            $fileName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('images/product-images', $fileName, 'public');
+        try {
+            if ($request->hasFile('thumbnail')) {
+                $file = $request->file('thumbnail');
+                $fileName = $file->getClientOriginalName();
+                $filePath = $file->storeAs('images/product-images', $fileName, 'public');
+                $validatedData['thumbnail'] = ltrim($filePath, '/');
+            }
 
-            // Lưu đường dẫn ảnh vào validatedData
-            $validatedData['thumbnail'] = ltrim($filePath, '/');
+            Product::create($validatedData);
+
+            return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error creating product: ' . $e->getMessage());
+            return back()->with('error', 'Failed to create product.');
         }
-
-        // Lưu sản phẩm vào database
-        $product = Product::create($validatedData);
-
-        return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được thêm thành công.');
     }
-
 
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        try {
+            $product = Product::findOrFail($id);
+            $product->delete();
 
-        return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được xóa thành công.');
+            return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting product: ' . $e->getMessage());
+            return back()->with('error', 'Failed to delete. Product is in order.');
+        }
     }
-
-
 }

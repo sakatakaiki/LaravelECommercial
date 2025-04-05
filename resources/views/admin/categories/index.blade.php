@@ -14,6 +14,18 @@
             </nav>
         </div>
 
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="row">
             @foreach ($categories as $category)
                 <div class="col-md-4 mb-4">
@@ -23,7 +35,8 @@
                             <h5 class="card-title">{{ $category->name }}</h5>
                             <p class="card-text text-muted">{{ $category->description ?? 'No description' }}</p>
                             <div class="d-flex justify-content-center">
-                                <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-sm btn-success mx-1">
+                                <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                    class="btn btn-sm btn-success mx-1">
                                     <i class="mdi mdi-pencil"></i> Edit
                                 </a>
                                 <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">

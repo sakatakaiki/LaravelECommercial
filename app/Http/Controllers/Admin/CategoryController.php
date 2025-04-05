@@ -54,7 +54,22 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        Category::findOrFail($id)->delete();
-        return redirect()->route('admin.categories.index')->with('success', 'Danh mục đã bị xóa.');
+        $category = Category::findOrFail($id);
+
+        try {
+            $category->delete();
+            return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Check for foreign key constraint violation
+            if ($e->getCode() == '23000') {
+                return redirect()->route('admin.categories.index')
+                    ->with('error', 'Cannot delete category because it is associated with existing products.');
+            }
+
+            // Other unexpected database errors
+            return redirect()->route('admin.categories.index')
+                ->with('error', 'An error occurred while deleting the category.');
+        }
     }
+
 }

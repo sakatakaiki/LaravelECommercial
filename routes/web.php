@@ -76,6 +76,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/', [AdminOrderController::class, 'index'])->name('index');
         Route::get('/{order}', [AdminOrderController::class, 'show'])->name('show');
         Route::post('/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('/{order}/export', [AdminOrderController::class, 'exportOrder'])->name('export');
     });
 
 

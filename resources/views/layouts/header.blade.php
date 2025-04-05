@@ -37,11 +37,10 @@
                 <div class="language-dropdown">
                     <span class="language-dd">English</span>
                     <ul id="language">
-                        <li class="">German</li>
-                        <li class="">French</li>
+                        <li class="">Vietnamese</li>
                     </ul>
                 </div>
-                <p class="phone-no"><i class="anm anm-phone-s"></i> +440 0(111) 044 833</p>
+                <p class="phone-no"><i class="anm anm-phone-s"></i> +84 37 4178451</p>
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
                 <div class="text-center">

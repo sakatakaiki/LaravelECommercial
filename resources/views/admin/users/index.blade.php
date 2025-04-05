@@ -16,6 +16,18 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
@@ -45,7 +57,7 @@
                                                 <button type="submit" class="btn btn-danger btn-sm mx-1">Delete</button>
                                             </form>
                                         </td>
-                                        
+
                                     </tr>
                                 @endforeach
                             </tbody>

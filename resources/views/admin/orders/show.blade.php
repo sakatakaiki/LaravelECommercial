@@ -68,6 +68,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <a href="{{ route('admin.orders.export', $order->id) }}" class="btn btn-success mt-3">
+                            <i class="mdi mdi-download"></i> Export Order to Excel
+                        </a>
+
                         <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary mt-3">Back to Orders</a>
                     </div>
                 </div>

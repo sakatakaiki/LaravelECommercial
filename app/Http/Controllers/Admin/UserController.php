@@ -64,10 +64,21 @@ class UserController extends Controller
     }
 
     public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
+{
+    $user = User::findOrFail($id);
 
+    try {
+        $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
+    } catch (\Illuminate\Database\QueryException $e) {
+        // Check if the error is a foreign key constraint violation
+        if ($e->getCode() == '23000') {
+            return redirect()->route('admin.users.index')->with('error', 'Cannot delete user because they have existing orders');
+        }
+
+        // Re-throw or handle other types of database exceptions
+        return redirect()->route('admin.users.index')->with('error', 'An error occurred while deleting the user');
     }
+}
+
 }

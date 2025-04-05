@@ -14,7 +14,9 @@ class User extends Authenticatable
     public $timestamps = false; 
     protected $fillable = ['email', 'password', 'role'];
 
-    protected $hidden = [];
+    protected $hidden = ['password']; 
 
-    protected $casts = [];
+    protected $casts = [
+        'password' => 'hashed', 
+    ];
 }

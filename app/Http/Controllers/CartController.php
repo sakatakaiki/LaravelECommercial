@@ -101,6 +101,28 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Cart updated successfully.');
     }
 
+    public function updateCartQuantity($itemId, $action)
+    {
+        $orderItem = OrderItem::find($itemId);
+
+        if (!$orderItem) {
+            return redirect()->back()->with('error', 'Item not found.');
+        }
+
+        if ($action === 'increase') {
+            $orderItem->quantity += 1;
+        } elseif ($action === 'decrease' && $orderItem->quantity > 1) {
+            $orderItem->quantity -= 1;
+        }
+
+        $orderItem->save();
+
+        return redirect()->back()->with('success', 'Cart updated successfully.');
+    }
+
+
+
+
     public function checkout()
     {
         if (!Auth::check()) {
@@ -147,17 +169,17 @@ class CartController extends Controller
         if (!Auth::check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
-    
+
         $orderItem = OrderItem::find($id);
         if (!$orderItem) {
             return response()->json(['success' => false, 'message' => 'Item not found'], 404);
         }
-    
+
         $removedQuantity = $orderItem->quantity;
         $removedTotal = $orderItem->quantity * $orderItem->price;
-    
+
         $orderItem->delete();
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Item removed',

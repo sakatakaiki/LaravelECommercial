@@ -22,7 +22,13 @@
 
       @if(session('error'))
       <div class="alert alert-danger">{{ session('error') }}</div>
-      @endif
+    @endif
+      @error('email')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+      @error('password')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
       <div class="card p-4 shadow-lg">
         <form method="post" action="{{ route('login.process') }}" id="CustomerLoginForm" class="contact-form">
@@ -39,6 +45,12 @@
 
         <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
           <button type="submit" class="btn btn-primary w-100">Login</button>
+          <!-- Facebook Login Button -->
+          <a href="{{ route('login.facebook') }}" class="btn w-100 mb-3 mt-2"
+          style="background-color: #3b5998; color: white; font-weight: bold; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center;">
+          <i class="fab fa-facebook-f" style="margin-right: 10px;"></i> Login with Facebook
+          </a>
+
           <p class="mb-4 mt-4">
           <span id="RecoverPassword">Doesn't have account yet?</span> &nbsp; | &nbsp;
           <a href="{{ route('register') }}" id="customer_register_link">Register</a>

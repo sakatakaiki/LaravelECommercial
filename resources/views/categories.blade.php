@@ -139,13 +139,13 @@
                                         <span class="filters-toolbar__product-count">Showing:
                                             {{ $products->total() }}</span>
                                     </div>
-                                    <form action="{{ route('categories', $category->id) }}" method="get" class="sort-form">
-
-                                        <div class="filters-toolbar__item d-flex align-items-center gap-2">
-                                            <label for="property" class="hidden">Sort</label>
-                                            <select name="property" id="SortBy"
-                                                class="filters-toolbar__input filters-toolbar__input--sort w-50"
-                                                onchange="this.form.submit()">
+                                    <div class="col-4 col-md-4 col-lg-4 d-flex justify-content-end">
+                                        <form action="{{ route('categories', ['id' => $category->id]) }}" method="get"
+                                            class="d-flex align-items-center">
+                                            <!-- Lựa chọn thuộc tính cần sắp xếp -->
+                                            <label for="property" class="fw-bold me-2 hidden">Sort by:</label>
+                                            <select name="property" id="property" class="form-select me-3"
+                                                style="width: 150px;" onchange="this.form.submit()">
                                                 <option value="name" {{ request('property') == 'name' ? 'selected' : '' }}>
                                                     Name</option>
                                                 <option value="price" {{ request('property') == 'price' ? 'selected' : '' }}>
@@ -153,17 +153,18 @@
                                                 <option value="created_at" {{ request('property') == 'created_at' ? 'selected' : '' }}>Time</option>
                                             </select>
 
-                                            <label for="order" class="hidden">Sort</label>
-                                            <select name="order" id="SortBy"
-                                                class="filters-toolbar__input filters-toolbar__input--sort w-50"
+                                            <!-- Lựa chọn thứ tự sắp xếp -->
+                                            <label for="order" class="fw-bold me-2 hidden">Order:</label>
+                                            <select name="order" id="order" class="form-select" style="width: 150px;"
                                                 onchange="this.form.submit()">
                                                 <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>From A-Z
                                                 </option>
                                                 <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>From
                                                     Z-A</option>
                                             </select>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -239,8 +240,9 @@
                                 @endforeach
                             </div>
                             <div class="d-flex justify-content-center w-100 mt-3" style="clear: both;">
-                                {{ $products->links('pagination::bootstrap-4') }}
+                                {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
                             </div>
+
                         </div>
 
                     </div>

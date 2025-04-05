@@ -22,7 +22,8 @@ class CategoryController extends Controller
         // Thêm điều kiện orderBy vào truy vấn
         $products = Product::where('category_id', $id)
             ->orderBy($sortBy, $order)
-            ->paginate(12);
+            ->paginate(12)
+            ->appends($request->query());;
 
         $topProducts = Product::getTopViewedProducts();
 

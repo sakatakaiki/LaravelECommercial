@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,7 +31,7 @@ class UserController extends Controller
 
         User::create([
             'email' => $request->email,
-            'password' => $request->password,  
+            'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
 
@@ -56,7 +57,7 @@ class UserController extends Controller
         $user->update([
             'email' => $request->email,
             'role' => $request->role,
-            'password' => $request->password ?: $user->password,  
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully');

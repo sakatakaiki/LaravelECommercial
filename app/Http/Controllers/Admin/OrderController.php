@@ -29,4 +29,6 @@ class OrderController extends Controller
 
         return redirect()->route('admin.orders.index')->with('success', 'Order status updated successfully.');
     }
+
+    
 }

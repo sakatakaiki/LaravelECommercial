@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'twilio' => [
+    'sid' => env('TWILIO_SID'),
+    'token' => env('TWILIO_AUTH_TOKEN'),
+    'verify_service_sid' => env('TWILIO_VERIFY_SERVICE_SID'),
+    'from' => env('TWILIO_FROM'),
+    ],
+
+    'facebook' => [
+    'client_id' => env('FACEBOOK_CLIENT_ID'),
+    'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    ],
+
+
 ];

@@ -129,13 +129,14 @@
                 <h6 class="p-3 mb-0 text-center">See all notifications</h6>
               </div>
             </li>
-            <c:if test="${sessionScope.user != null}">
+            @auth
             <li class="nav-item nav-logout d-none d-lg-block">
-              <a class="nav-link" href="LogoutServlet">
+              <a class="nav-link" href="{{ route('logout') }}">
                 <i class="mdi mdi-power"></i>
               </a>
             </li>
-            </c:if>
+            @endauth
+
             <li class="nav-item nav-settings d-none d-lg-block">
               <a class="nav-link" href="#">
                 <i class="mdi mdi-format-line-spacing"></i>

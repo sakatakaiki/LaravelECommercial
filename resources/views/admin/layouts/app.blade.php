@@ -63,7 +63,11 @@
     <script src="{{ asset('admin/js/settings.js') }}"></script>
     <script src="{{ asset('admin/js/todolist.js') }}"></script>
     <script src="{{ asset('admin/js/jquery.cookie.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     
+
+    <script src="{{ asset('admin/js/dashboard.js') }}"></script>
 
     <!-- endinject -->
     <!-- Custom js for this page -->

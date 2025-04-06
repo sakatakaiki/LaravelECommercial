@@ -36,11 +36,12 @@ return [
     ],
 
     'twilio' => [
-    'sid' => env('TWILIO_SID'),
-    'token' => env('TWILIO_AUTH_TOKEN'),
-    'verify_service_sid' => env('TWILIO_VERIFY_SERVICE_SID'),
-    'from' => env('TWILIO_FROM'),
+    'account_sid' => env('TWILIO_ACCOUNT_SID'),
+    'auth_token' => env('TWILIO_AUTH_TOKEN'),
+    'verify_sid' => env('TWILIO_VERIFY_SID'),
     ],
+
+
 
     'facebook' => [
     'client_id' => env('FACEBOOK_CLIENT_ID'),

@@ -102,17 +102,16 @@ class AuthController extends Controller
 
     public function sendOtp(Request $request, TwilioService $twilio)
     {
-        $fullPhone = $request->country_code . $request->phone;
-
         $request->validate([
             'phone' => 'required',
-            'email' => 'required|email',
+            'country_code' => 'required',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $otp = rand(100000, 999999);
+        $fullPhone = $request->country_code . $request->phone;
+
         session([
-            'otp' => $otp,
             'otp_phone' => $fullPhone,
             'register_email' => $request->email,
             'register_password' => $request->password,
@@ -120,35 +119,12 @@ class AuthController extends Controller
         ]);
 
         try {
-            $generatedOtp = $twilio->sendOtp($request->phone);
-            return view('auth.register', ['debug_otp' => $generatedOtp]);
+            $twilio->sendOtp($fullPhone);
+            return view('auth.register');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to send OTP. ' . $e->getMessage());
         }
     }
-
-    // public function verifyOtp(Request $request)
-    // {
-    //     $request->validate(['otp' => 'required']);
-
-    //     if ($request->otp != session('otp')) {
-    //         return back()->withErrors(['otp' => 'Invalid OTP']);
-    //     }
-
-    //     // Xác thực thành công => tạo tài khoản
-    //     $email = session('register_email');
-    //     $password = session('register_password');
-
-    //     User::create([
-    //         'email' => $email,
-    //         'password' => Hash::make($password),
-    //         'role' => 'user',
-    //     ]);
-
-    //     session()->forget(['otp', 'otp_phone', 'register_email', 'register_password', 'register_password_confirmation']);
-
-    //     return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
-    // }
 
     public function verifyOtp(Request $request, TwilioService $twilio)
     {
@@ -157,48 +133,43 @@ class AuthController extends Controller
         $phone = session('otp_phone');
         $otp = $request->otp;
 
-        $result = $twilio->verifyOtp($phone, $otp);
+        try {
+            $result = $twilio->checkOtp($phone, $otp);
 
-        if ($result !== 'approved') {
-            return back()->withErrors(['otp' => 'Invalid OTP']);
+            if ($result->status !== 'approved') {
+                return back()->withErrors(['otp' => 'Invalid OTP']);
+            }
+
+            $email = session('register_email');
+            $password = session('register_password');
+
+            User::create([
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => 'user',
+            ]);
+
+            session()->forget(['otp_phone', 'register_email', 'register_password', 'register_password_confirmation']);
+
+            return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['otp' => 'OTP verification failed: ' . $e->getMessage()]);
         }
-
-        // Xác thực thành công => tạo tài khoản
-        $email = session('register_email');
-        $password = session('register_password');
-
-        User::create([
-            'email' => $email,
-            'password' => Hash::make($password),
-            'role' => 'user',
-        ]);
-
-        session()->forget(['otp', 'otp_phone', 'register_email', 'register_password', 'register_password_confirmation']);
-
-        return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
     }
-
 
     public function resetOtp()
     {
-        session()->forget(['otp', 'otp_phone', 'register_email', 'register_password', 'register_password_confirmation']);
+        session()->forget(['otp_phone', 'register_email', 'register_password', 'register_password_confirmation']);
         return redirect()->route('register');
     }
 
-    public function resendOtp()
+    public function resendOtp(TwilioService $twilio)
     {
-        $phone = session('otp_phone'); // Lấy số điện thoại đã lưu trong session
-        $otp = rand(100000, 999999); // Tạo OTP mới giả
+        $phone = session('otp_phone');
 
-        // Cập nhật OTP trong session
-        session(['otp' => $otp]);
-
-        // Gọi TwilioService để gửi OTP mới
         try {
-            // Gửi OTP qua Twilio (hoặc giả lập)
-            $twilioService = new TwilioService();
-            $twilioService->sendOtp($phone); // Gửi OTP giả lập
-            return response()->json(['otp' => $otp]); // Trả lại OTP mới cho phía client
+            $twilio->sendOtp($phone);
+            return response()->json(['message' => 'OTP resent successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to resend OTP. ' . $e->getMessage()], 500);
         }

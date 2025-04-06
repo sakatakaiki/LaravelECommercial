@@ -1,31 +1,37 @@
 <?php
 
 namespace App\Services;
-
+use Twilio\Rest\Client;
 class TwilioService
 {
-    public function sendOtp($phoneNumber)
+    protected $twilio;
+
+    public function __construct()
     {
-        $otp = rand(100000, 999999);
-
-        // Lưu OTP vào session để xác minh sau
-        session(['otp' => $otp, 'otp_phone' => $phoneNumber]);
-
-        // Ghi log để dev xem (hoặc echo để debug)
-        logger("Fake OTP sent to {$phoneNumber}: {$otp}");
-
-        return $otp; // return fake SID nếu cần
+        $this->twilio = new Client(
+            config('services.twilio.account_sid'),
+            config('services.twilio.auth_token')
+        );
     }
 
-    public function verifyOtp($phoneNumber, $otp)
+    public function sendOtp($phoneNumber)
     {
-        $sessionOtp = session('otp');
-        $sessionPhone = session('otp_phone');
+        return $this->twilio->verify
+            ->v2
+            ->services(config('services.twilio.verify_sid'))
+            ->verifications
+            ->create($phoneNumber, 'sms');
+    }
 
-        if ($otp == $sessionOtp && $phoneNumber == $sessionPhone) {
-            return 'approved'; // giả lập thành công
-        }
-
-        return 'failed';
+    public function checkOtp($phoneNumber, $code)
+    {
+        return $this->twilio->verify
+            ->v2
+            ->services(config('services.twilio.verify_sid'))
+            ->verificationChecks
+            ->create([
+                'to' => $phoneNumber,
+                'code' => $code
+            ]);
     }
 }

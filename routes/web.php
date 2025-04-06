@@ -23,8 +23,8 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 Route::post('/register/send-otp', [AuthController::class, 'sendOtp'])->name('register.sendOtp');
 Route::post('/register/verify-otp', [AuthController::class, 'verifyOtp'])->name('register.verifyOtp');
-Route::get('/register/reset-otp', [AuthController::class, 'resetOtp'])->name('register.resetOtp');
-Route::get('/register/resendOtp', [AuthController::class, 'resendOtp'])->name('register.resendOtp');
+Route::get('/register/reset', [AuthController::class, 'resetOtp'])->name('register.resetOtp');
+Route::get('/register/resend-otp', [AuthController::class, 'resendOtp'])->name('register.resendOtp');
 
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
